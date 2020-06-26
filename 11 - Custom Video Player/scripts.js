@@ -26,9 +26,17 @@ function updateButton() {
 }
 
 function skip() {
+  // uses the values in the dataset [data-skip] to add or take away from property currentTime
   video.currentTime += parseFloat(this.dataset.skip);
 }
 
+function handleRangeUpdate() {
+  video[this.name] = this.value;
+}
+
+function handleProgress() {
+  
+}
 
 // Connect events listener
 
@@ -38,4 +46,7 @@ toggle.addEventListener('click', togglePlay);
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
 
-skipButtons.forEach((button) =>　button.addEventListener('click', skip));
+skipButtons.forEach(button =>　button.addEventListener('click', skip));
+
+ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
+ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
