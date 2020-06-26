@@ -32,9 +32,19 @@ function skip() {
 
 function handleRangeUpdate() {
   video[this.name] = this.value;
+  // the name corresponds to the property of the video object so we can use it to update to new value
 }
 
 function handleProgress() {
+  // currentTime and duration are properties of the video
+  const percent = (video.currentTime / video.duration) * 100;
+  progressBar.style.flexBasis = `${percent}%`;
+}
+
+function scrub(e) {
+  const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+  video.currentTime = scrubTime;
+  console.log(e);
   
 }
 
@@ -46,7 +56,17 @@ toggle.addEventListener('click', togglePlay);
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
 
+// listen to this time update to trigger the function that changes the style of progress bar
+video.addEventListener('timeupdate', handleProgress);
+
 skipButtons.forEach(button =>　button.addEventListener('click', skip));
 
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
+
+let mousedown = false;
+progress.addEventListener('click', scrub);
+// checks the mousedown variable and if true moves after the && to call the scrub function. We need to pass the event to pass it to scrub
+progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
+progress.addEventListener('mousedown', () => mousedown = true);
+progress.addEventListener('mouseup', () => mousedown = false);
