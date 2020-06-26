@@ -20,6 +20,16 @@ function togglePlay() {
   // video[method]();
 }
 
+function updateButton() {
+  const icon = this.paused ? '►' : '❚ ❚';
+  toggle.textContent = icon;
+}
+
+
 // Connect events listener
 
 video.addEventListener('click', togglePlay);
+toggle.addEventListener('click', togglePlay);
+// listen for any pause and play event to update the button (not just from inside the togglePlay function)
+video.addEventListener('play', updateButton);
+video.addEventListener('pause', updateButton);
