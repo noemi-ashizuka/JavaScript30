@@ -86,6 +86,10 @@ body {
   flex: 1;
 }
 
+.player__fullscreen {
+  font-size: 16px;
+}
+
 .progress {
   flex: 10;
   position: relative;
