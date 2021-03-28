@@ -43,6 +43,7 @@
   </div>
 
   <script>
+    // debouce function runs a function you can pass as argument but waits an amount of time, which you can also pass
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -57,6 +58,29 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    const slidingImages= document.querySelectorAll('.slide-in');
+
+    function checkSlide(event) {
+      // console.log(window.scrollY);
+      slidingImages.forEach(slidingImage => {
+        // we want to slide the image when we scroll, but halway throught the image
+        const slideInAt = (window.scrollY + window.innerHeight) - slidingImage.height / 2;
+        // we want the same animation to happen when we scroll from bottom to top
+        // offsetTop tells us how far in pixel is the image from the top, we want to know the bottm so we add the image height to it
+        const imageBottom =　slidingImage.offsetTop + slidingImage.height;
+        const isHalfShown = slideInAt > slidingImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if (isHalfShown && isNotScrolledPast) {
+          slidingImage.classList.add('active');
+        } else {
+          slidingImage.classList.remove('active');
+        }
+      });
+    }
+
+    // instead of using checkSlide every time we scroll, we wrap it in the debounce function
+    window.addEventListener('scroll', debounce(checkSlide));
 
   </script>
 
